@@ -17,13 +17,6 @@ teardown(() => swarm.destroy())
 // This is optional but helpful during production
 updates(() => Pear.reload())
  
-// When there's a new connection, listen for new messages, and add them to the UI
-swarm.on('connection', (peer) => {
-  // name incoming peers after first 6 chars of its public key as hex
-  const name = b4a.toString(peer.remotePublicKey, 'hex').substr(0, 6)
-  peer.on('data', message => onMessageAdded(name, message))
-  peer.on('error', e => console.log(`Connection error: ${e}`))
-})
  
 // When there's updates to the swarm, update the peers count
 swarm.on('update', () => {
@@ -66,21 +59,33 @@ const notepad = document.querySelector('#notepad')
 
 // 2. Quan JO escric alguna cosa...
 notepad.addEventListener('input', (e) => {
-  const textActual = e.target.value // Agafem tot el text que hi ha escrit
+  const textActual = e.target.value
+  
+  // Convertim el text a Bytes (Buffer) abans d'enviar
+  const dadesAEnviar = b4a.from(textActual)
   
   // L'enviem a tots els companys connectats
   const peers = [...swarm.connections]
   for (const peer of peers) {
-    peer.write(textActual) 
+    peer.write(dadesAEnviar) 
   }
+
+  // ✨ TRUC VISUAL: Posem la vora blava per confirmar que ENVIEM
+  notepad.style.borderColor = '#0088ff' 
+  setTimeout(() => { notepad.style.borderColor = '#B0D944' }, 300) // Torna al color normal ràpid
 })
 
+// 3. Quan rebem dades d'un altre peer...
 swarm.on('connection', (peer) => {
   peer.on('data', data => {
-    // Quan rebem dades, b4a ho tradueix de Buffer a Text
+    // Traduïm els bytes a text
     const textRebut = b4a.toString(data)
-    // Actualitzem el nostre bloc de notes amb el text del company
+    
+    // Canviem el text de la pantalla
     notepad.value = textRebut 
+    
+    // ✨ TRUC VISUAL: Posem la vora vermella per confirmar que REBEM
+    notepad.style.borderColor = '#ff0044' 
+    setTimeout(() => { notepad.style.borderColor = '#B0D944' }, 300) // Torna al color normal ràpid
   })
-  peer.on('error', e => console.log(`Connection error: ${e}`))
 })
