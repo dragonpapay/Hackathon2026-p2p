@@ -70,6 +70,10 @@ function renderitzarDashboard() {
     const div = document.createElement('div')
     div.className = 'doc-item'
     div.innerHTML = `
+      <button class="btn-esborrar-doc" title="Esborrar document" onclick="event.stopPropagation(); esborrarDocument('${doc.topic}')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+      </button>
+
       <div class="doc-preview">
         ${doc.tipus === 'text' ? iconaText : iconaPdf}
       </div>
@@ -82,6 +86,19 @@ function renderitzarDashboard() {
     div.addEventListener('click', () => unirSessioExistent(doc.topic, doc.nom))
     graellaRecents.appendChild(div)
   })
+}
+
+// I posem la funció d'esborrar just a sota
+window.esborrarDocument = function(topic) {
+    if (confirm("Segur que vols esborrar aquest document? Aquesta acció no es pot desfer.")) {
+        let docs = obtenirDocumentsDesats();
+        // Filtrem els documents perquè NO incloguin el que acabem de clicar
+        docs = docs.filter(d => d.topic !== topic);
+        localStorage.setItem('pears_documents', JSON.stringify(docs));
+        
+        // Tornem a dibuixar la llista
+        renderitzarDashboard(); 
+    }
 }
 
 // Inicialitzem el taulell a l'arrencar
@@ -213,3 +230,47 @@ document.querySelectorAll('.close-app').forEach(btn => {
     Pear.Window.self.close()
   })
 })
+
+// ==========================================
+// EXPORTACIÓ DE DOCUMENTS
+// ==========================================
+const btnDescarregar = document.querySelector('#btn-descarregar');
+
+btnDescarregar.addEventListener('click', () => {
+  // 1. Agafem el contingut HTML de l'editor
+  const contingutHTML = editor.innerHTML;
+
+  // 2. Agafem el nom actual del document per posar-li a l'arxiu
+  const nomArxiu = (nomDocActual.innerText || 'document_pears').replace(/\s+/g, '_');
+
+  // 3. Creem la capçalera per a Word
+  const preHtml = `
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+          xmlns:w='urn:schemas-microsoft-com:office:word' 
+          xmlns='http://www.w3.org/TR/REC-html40'>
+    <head><meta charset='utf-8'><title>${nomArxiu}</title></head><body>
+  `;
+  const postHtml = "</body></html>";
+  
+  // 4. Juntem-ho tot
+  const htmlComplet = preHtml + contingutHTML + postHtml;
+  
+  // 5. Creem un "Blob" (que és bàsicament un fitxer temporal a la memòria)
+  // Hi afegim '\ufeff' (BOM) perquè reconegui bé els accents (à, é, í, ò, ú, ç...)
+  const blob = new Blob(['\ufeff', htmlComplet], {
+      type: 'application/msword'
+  });
+  
+  // 6. Creem un enllaç de descàrrega invisible i el cliquem automàticament
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${nomArxiu}.doc`; // Li posem l'extensió .doc
+  
+  document.body.appendChild(link);
+  link.click(); // Forcem el clic
+  
+  // 7. Netegem la brossa de la memòria
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+});

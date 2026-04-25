@@ -21,7 +21,8 @@
         /* =========================================
            CONTROLS DE FINESTRA I NO-DRAG
            ========================================= */
-        .window-controls, .win-btn, #btn-tornar-dashboard, .btn-eina, select, input, button {
+
+        .window-controls, .win-btn, #btn-tornar-dashboard, .info-sessio, .btn-eina, select, input, button {
             -webkit-app-region: no-drag;
         }
 
@@ -121,6 +122,37 @@
         .cercle-estat { width: 10px; height: 10px; background-color: #4caf50; border-radius: 50%; }
 
         .hidden { display: none !important; }
+
+
+        .doc-item { position: relative; } /* Necessari per posicionar el botó */
+        
+        .btn-esborrar-doc {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #d32f2f;
+            opacity: 0; /* Amagat per defecte */
+            transition: opacity 0.2s, background 0.2s;
+            z-index: 2;
+        }
+
+        .doc-item:hover .btn-esborrar-doc {
+            opacity: 1; /* Apareix en passar el ratolí */
+        }
+
+        .btn-esborrar-doc:hover {
+            background: #fdeaea;
+            border-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -174,7 +206,13 @@
     </div>
 
     <div id="vista-editor" class="hidden" style="flex-direction: column; height: 100vh;">
-        <div class="capcalera"> <div class="capcalera-esquerra" id="btn-tornar-dashboard" title="Tornar al taulell">
+        <div class="capcalera"> 
+            <div class="capcalera-esquerra" id="btn-tornar-dashboard" title="Tornar al taulell">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <svg class="logo-pears" viewBox="0 0 24 24" fill="#cddc39" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                </svg>
                 <span id="nom-doc-actual">Document sense títol</span>
             </div>
             <div class="info-sessio">
@@ -227,6 +265,14 @@
         <button class="btn-eina" title="Llista de tasques"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></button>
         <button class="btn-eina" id="btn-punts" title="Llista amb punts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
         <button class="btn-eina" id="btn-numeros" title="Llista numerada"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg></button>
+        <button class="btn-eina" id="btn-descarregar" title="Descarregar com a Document">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+        </button>
+   
     </div>
 
         <div class="zona-principal">
@@ -259,6 +305,8 @@
             </div>
         </div>
     </div>
+
+    
 
     <script type="module" src="./app.js"></script>
     <script>
