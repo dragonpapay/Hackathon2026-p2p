@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pears Docs - Interfície d'Edició</title>
+    <style>
+        /* =========================================
+           1. RESET BÀSIC I ESTRUCTURA GENERAL
+           ========================================= */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column; 
+            background-color: #e1e1e1;
+        }
+
+        /* =========================================
+           2. LA CAPÇALERA (Header amb Logo)
+           ========================================= */
+        .capcalera {
+            background-color: #2e7d32; /* Verd Pears */
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .logo-pears {
+            height: 28px;
+            width: auto;
+        }
+
+        /* =========================================
+           3. LA BARRA D'EINES (Toolbar)
+           ========================================= */
+        .barra-eines {
+            display: flex; 
+            align-items: center; 
+            background-color: #f1f3f4;
+            padding: 6px 14px;
+            gap: 4px; 
+            border-bottom: 1px solid #c7c7c7;
+            flex-wrap: wrap;
+            z-index: 5;
+        }
+
+        .btn-eina {
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            color: #444746;
+            height: 32px;
+            min-width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-eina:hover { background-color: #e1e5ea; }
+        
+        /* Botó actiu (quan cliquem) */
+        .btn-eina:active { background-color: #d3e3fd; color: #0b57d0; }
+
+        .input-color {
+            border: none;
+            background: transparent;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            padding: 2px;
+            border-radius: 4px;
+        }
+        
+        .input-color:hover { background-color: #e1e5ea; }
+
+        .select-eina {
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            padding: 6px;
+            color: #444746;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .select-eina:hover { background-color: #e1e5ea; }
+
+        .separador {
+            width: 1px;
+            height: 20px;
+            background-color: #c7c7c7;
+            margin: 0 6px;
+        }
+
+        .input-mida {
+            width: 30px;
+            height: 26px;
+            text-align: center;
+            border: 1px solid #747775;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* =========================================
+           4. LA ZONA PRINCIPAL (Document + Sidebar)
+           ========================================= */
+        .zona-principal {
+            display: flex; 
+            flex: 1; 
+            overflow: hidden;
+        }
+
+        .zona-document {
+            flex: 1; 
+            display: flex;
+            justify-content: center; 
+            padding: 40px;
+            overflow-y: auto; 
+        }
+
+        .full-paper {
+            background-color: white;
+            width: 21cm; 
+            min-height: 29.7cm; 
+            padding: 2.5cm; /* Marge estàndard d'un word */
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.1); 
+            outline: none; 
+            line-height: 1.5;
+            font-size: 11pt;
+            color: #000000;
+        }
+
+        /* =========================================
+           5. LA BARRA LATERAL P2P
+           ========================================= */
+        .barra-lateral-p2p {
+            width: 300px; 
+            background-color: #f9f9f9;
+            border-left: 1px solid #d2d0ce;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .titol-sidebar {
+            font-size: 14px;
+            color: #2e7d32;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .usuari-fals {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .cercle-estat {
+            width: 10px;
+            height: 10px;
+            background-color: #4caf50;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="capcalera">
+        <svg class="logo-pears" viewBox="0 0 24 24" fill="#cddc39" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+        Pears Docs - Projecte Descentralitzat
+    </div>
+
+    <div class="barra-eines">
+        <select class="select-eina">
+            <option>Text normal</option>
+            <option>Títol 1</option>
+            <option>Títol 2</option>
+        </select>
+        <div class="separador"></div>
+        <select class="select-eina" style="width: 80px;">
+            <option>Arial</option>
+            <option>Times</option>
+        </select>
+        <div class="separador"></div>
+        
+        <button class="btn-eina" title="Disminuir"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+        <input type="text" value="11" class="input-mida">
+        <button class="btn-eina" title="Augmentar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+        <div class="separador"></div>
+        
+        <button class="btn-eina" id="btn-negreta" style="font-weight: bold; font-family: serif;" title="Negreta (Ctrl+B)">B</button>
+        <button class="btn-eina" id="btn-cursiva" style="font-style: italic; font-family: serif;" title="Cursiva (Ctrl+I)">I</button>
+        <button class="btn-eina" id="btn-subratllat" style="text-decoration: underline; font-family: serif;" title="Subratllat (Ctrl+U)">U</button>
+        <input type="color" id="selector-color" class="input-color" value="#000000" title="Color del text">
+        <div class="separador"></div>
+        
+        <button class="btn-eina" title="Inserir enllaç"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></button>
+        <button class="btn-eina" title="Afegeix comentari"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></button>
+        <button class="btn-eina" title="Inserir imatge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></button>
+        <div class="separador"></div>
+        
+        <button class="btn-eina" id="btn-esquerra" title="Alinear a l'esquerra"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+        <button class="btn-eina" id="btn-centre" title="Alinear al centre"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="6" y1="12" x2="18" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+        <button class="btn-eina" id="btn-dreta" title="Alinear a la dreta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="9" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+        <div class="separador"></div>
+
+        <button class="btn-eina" title="Interlineat i espaiat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="4" x2="12" y2="20"></line><polyline points="15 7 12 4 9 7"></polyline><polyline points="15 17 12 20 9 17"></polyline><line x1="21" y1="6" x2="21" y2="6"></line><line x1="21" y1="12" x2="21" y2="12"></line><line x1="21" y1="18" x2="21" y2="18"></line></svg></button>
+        <div class="separador"></div>
+        <button class="btn-eina" title="Llista de tasques"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></button>
+        <button class="btn-eina" id="btn-punts" title="Llista amb punts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
+        <button class="btn-eina" id="btn-numeros" title="Llista numerada"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg></button>
+    </div>
+
+    <div class="zona-principal">
+        
+        <div class="zona-document">
+            <div class="full-paper" contenteditable="true">
+                <h1 style="margin-top: 0;">Pla d'Acció Pears P2P</h1>
+                <p>Aquest document és totalment editable. Prova de seleccionar aquest text i utilitzar la barra d'eines de dalt per posar-lo en <strong>negreta</strong>, canviar-lo de color o alinear-lo al centre.</p>
+                <br>
+                <p>Coses pendents per al desenvolupament:</p>
+                <ul>
+                    <li>Integrar el motor CRDT.</li>
+                    <li>Connectar els usuaris reals per WebRTC.</li>
+                    <li>Celebrar que la UI ja està feta!</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="barra-lateral-p2p">
+            <h3 class="titol-sidebar">
+                Xarxa P2P <span style="font-weight:normal; font-size:12px; color:#666;">2 connectats</span>
+            </h3>
+            
+            <div class="usuari-fals">
+                <div class="cercle-estat"></div>
+                <div>
+                    <strong>Anna (Tu)</strong><br>
+                    <span style="color:#666; font-size:11px;">Sincronitzant fitxer...</span>
+                </div>
+            </div>
+            
+            <div class="usuari-fals">
+                <div class="cercle-estat" style="background-color: #ff9800;"></div>
+                <div>
+                    <strong>Marc</strong><br>
+                    <span style="color:#666; font-size:11px;">Escribint línia 4...</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // -- FUNCIONS BÀSIQUES DE FORMAT (Negreta, Cursiva, Subratllat) --
+        document.getElementById('btn-negreta').addEventListener('click', function() {
+            document.execCommand('bold');
+        });
+        document.getElementById('btn-cursiva').addEventListener('click', function() {
+            document.execCommand('italic');
+        });
+        document.getElementById('btn-subratllat').addEventListener('click', function() {
+            document.execCommand('underline');
+        });
+
+        // -- FUNCIÓ DE COLOR DE LLETRA --
+        const selectorColor = document.getElementById('selector-color');
+        selectorColor.addEventListener('input', function() {
+            const colorTriat = selectorColor.value;
+            document.execCommand('foreColor', false, colorTriat);
+        });
+
+        // -- FUNCIONS DE LLISTES --
+        document.getElementById('btn-punts').addEventListener('click', function() {
+            document.execCommand('insertUnorderedList');
+        });
+        document.getElementById('btn-numeros').addEventListener('click', function() {
+            document.execCommand('insertOrderedList');
+        });
+
+        // -- FUNCIONS D'ALINEACIÓ --
+        document.getElementById('btn-esquerra').addEventListener('click', function() {
+            document.execCommand('justifyLeft');
+        });
+        document.getElementById('btn-centre').addEventListener('click', function() {
+            document.execCommand('justifyCenter');
+        });
+        document.getElementById('btn-dreta').addEventListener('click', function() {
+            document.execCommand('justifyRight');
+        });
+    </script>
+</body>
+</html>
