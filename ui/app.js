@@ -32,7 +32,7 @@ swarm.on('update', () => {
  
 document.querySelector('#create-chat-room').addEventListener('click', createChatRoom)
 document.querySelector('#join-form').addEventListener('submit', joinChatRoom)
-document.querySelector('#message-form').addEventListener('submit', sendMessage)
+
  
 async function createChatRoom() {
   // Generate a new random topic (32 byte string)
@@ -60,22 +60,27 @@ async function joinSwarm (topicBuffer) {
   document.querySelector('#loading').classList.add('hidden')
   document.querySelector('#chat').classList.remove('hidden')
 }
- 
-function sendMessage (e) {
-  const message = document.querySelector('#message').value
-  document.querySelector('#message').value = ''
-  e.preventDefault()
- 
-  onMessageAdded('You', message)
- 
-  // Send the message to all peers (that you are connected to)
+
+// 1. Agafem l'element del bloc de notes
+const notepad = document.querySelector('#notepad')
+
+// 2. Quan JO escric alguna cosa...
+notepad.addEventListener('input', (e) => {
+  const textActual = e.target.value // Agafem tot el text que hi ha escrit
+  
+  // L'enviem a tots els companys connectats
   const peers = [...swarm.connections]
-  for (const peer of peers) peer.write(message)
-}
- 
-// appends element to #messages element with content set to sender and message
-function onMessageAdded (from, message) {
-  const $div = document.createElement('div')
-  $div.textContent = `<${from}> ${message}`
-  document.querySelector('#messages').appendChild($div)
-}
+  for (const peer of peers) {
+    peer.write(textActual) 
+  }
+})
+
+swarm.on('connection', (peer) => {
+  peer.on('data', data => {
+    // Quan rebem dades, b4a ho tradueix de Buffer a Text
+    const textRebut = b4a.toString(data)
+    // Actualitzem el nostre bloc de notes amb el text del company
+    notepad.value = textRebut 
+  })
+  peer.on('error', e => console.log(`Connection error: ${e}`))
+})
