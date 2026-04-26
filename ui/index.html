@@ -16,7 +16,7 @@
         .capcalera { background-color: #2e7d32; color: white; padding: 10px 15px; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10; justify-content: space-between; -webkit-app-region: drag;}
         .logo-pears { height: 28px; width: auto; }
         .capcalera-esquerra { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .info-sessio { font-size: 14px; background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 4px; font-weight: normal; -webkit-app-region: no-drag; cursor: text; }
+        .info-sessio { font-size: 14px; background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 4px; font-weight: normal; }
         .btn-enrere {
             background: transparent;
             border: none;
@@ -30,7 +30,6 @@
             -webkit-app-region: no-drag; 
             transition: background 0.2s;
         }
-
         .btn-enrere:hover {
             background: rgba(255, 255, 255, 0.2);
         }
@@ -44,7 +43,7 @@
         .window-controls {
             display: flex;
             gap: 5px;
-            margin-left: auto; /* Empeny els botons a la dreta */
+            margin-left: auto;
         }
 
         .win-btn {
@@ -69,7 +68,7 @@
            3. ESTILS DEL NOU DASHBOARD (TAULELL)
            ========================================= */
         #vista-dashboard { display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
-        .dash-header { background: white; padding: 20px 40px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; }
+        .dash-header { background: white; padding: 20px 40px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; -webkit-app-region: drag; }
         .dash-controls { background: #f1f3f4; padding: 30px 40px; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
         
         .card-accio { background: white; border: 1px solid #dadce0; border-radius: 8px; padding: 20px; width: 250px; text-align: center; cursor: pointer; transition: box-shadow 0.2s, border-color 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; }
@@ -101,6 +100,19 @@
         .zona-document { flex: 1; display: flex; justify-content: center; padding: 40px; overflow-y: auto; }
         .full-paper { background-color: white; width: 21cm; min-height: 29.7cm; padding: 2.5cm; box-shadow: 0px 5px 15px rgba(0,0,0,0.1); outline: none; line-height: 1.5; font-size: 11pt; color: #000000; }
         
+        #chat-room-topic {
+            -webkit-app-region: no-drag; 
+            user-select: all;            
+            cursor: text;                
+            padding: 2px 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        #chat-room-topic:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         #sidebar-resizer {
             width: 4px;
             cursor: col-resize;
@@ -110,17 +122,16 @@
         }
 
         #sidebar-resizer:hover {
-            background-color: #2e7d32; /* El teu verd Pears */
+            background-color: #2e7d32;
             width: 6px;
         }
 
         .barra-lateral-p2p { width: 300px; background-color: #f9f9f9; border-left: 1px solid #d2d0ce; padding: 20px; overflow-y: auto;  resize: horizontal;     
-            overflow-x: hidden;     /* Amaga el scroll horitzontal del resize */
+            overflow-x: hidden;     
             direction: rtl; }
         .barra-lateral-p2p > * {
             direction: ltr;
         }
-        .titol-sidebar { font-size: 14px; color: #2e7d32; margin-top: 0; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         .usuari-fals { background-color: white; border: 1px solid #e0e0e0; padding: 12px; margin-bottom: 10px; border-radius: 6px; font-size: 13px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px; overflow: hidden;       
             white-space: nowrap;}
         .usuari-fals div:last-child {
@@ -136,6 +147,8 @@
         }
         .cercle-estat { width: 10px; height: 10px; background-color: #4caf50; border-radius: 50%; }
 
+
+        .titol-sidebar { font-size: 14px; color: #2e7d32; margin-top: 0; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -149,7 +162,6 @@
                     <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
                 </svg>
                 Pears Taulell
-
             </div>
 
             <div class="window-controls" style="color: #444;">
@@ -177,6 +189,16 @@
                     <button type="submit" style="background: #1976d2; color: white; padding: 8px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Unir-se</button>
                 </form>
             </div>
+
+            <input type="file" id="input-importar-doc" accept=".txt,.html,.docx" style="display: none;">
+            <div class="card-accio nova" id="btn-importar-doc" style="color: #f57c00;">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f57c00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Importar Document
+            </div>
         </div>
 
         <div id="loading" class="hidden" style="text-align: center; padding: 20px; color: #2e7d32; font-weight: bold;">Connectant a la xarxa P2P...</div>
@@ -190,24 +212,23 @@
     </div>
 
     <div id="vista-editor" class="hidden" style="flex-direction: column; height: 100vh;">
+        
         <div class="capcalera"> 
-            
             <div class="capcalera-esquerra">
-                <button id="btn-tornar-dashboard" class="btn-enrere" title="Tornar al taulell">
+                <div id="btn-tornar-dashboard" title="Tornar al taulell" style="display: flex; align-items: center; cursor: pointer; -webkit-app-region: no-drag;">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                </button>
+                </div>
                 
-                <svg class="logo-pears" viewBox="0 0 24 24" fill="#cddc39" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="logo-pears" viewBox="0 0 24 24" fill="#cddc39" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 8px;">
                     <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
                     <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
                 </svg>
-                
-                <span id="nom-doc-actual" contenteditable="true" style="-webkit-app-region: no-drag; padding: 2px 6px; border-radius: 4px; outline: none; border: 1px solid transparent; transition: border 0.2s;" onfocus="this.style.border='1px solid rgba(255,255,255,0.5)'" onblur="this.style.border='1px solid transparent'">Document sense títol</span>
+
+                <span id="nom-doc-actual" contenteditable="true" style="-webkit-app-region: no-drag; padding: 2px 5px; border-radius: 3px; cursor: text; background: rgba(0,0,0,0.1); margin-left: 8px;">Document sense títol</span>
             </div>
 
             <div class="info-sessio">
-                
-                <strong>Codi:</strong> <span id="chat-room-topic" style="font-family: monospace; user-select: all;">...</span>
+                <strong>Codi:</strong> <span id="chat-room-topic">...</span>
             </div>
             
             <div class="window-controls">
@@ -217,56 +238,37 @@
             </div>
         </div>
 
-    <div class="barra-eines">
-        <select class="select-eina">
-            <option>Text normal</option>
-            <option>Títol 1</option>
-            <option>Títol 2</option>
-        </select>
-        <div class="separador"></div>
-        <select class="select-eina" style="width: 80px;">
-            <option>Arial</option>
-            <option>Times</option>
-        </select>
-        <div class="separador"></div>
-        
-        <button class="btn-eina" title="Disminuir"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-        <input type="text" value="11" class="input-mida">
-        <button class="btn-eina" title="Augmentar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-        <div class="separador"></div>
-        
-        <button class="btn-eina" id="btn-negreta" style="font-weight: bold; font-family: serif;" title="Negreta (Ctrl+B)">B</button>
-        <button class="btn-eina" id="btn-cursiva" style="font-style: italic; font-family: serif;" title="Cursiva (Ctrl+I)">I</button>
-        <button class="btn-eina" id="btn-subratllat" style="text-decoration: underline; font-family: serif;" title="Subratllat (Ctrl+U)">U</button>
-        <input type="color" id="selector-color" class="input-color" value="#000000" title="Color del text">
-        <div class="separador"></div>
-        
-        <button class="btn-eina" title="Inserir enllaç"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></button>
-        <button class="btn-eina" title="Afegeix comentari"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></button>
-        <button class="btn-eina" title="Inserir imatge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></button>
-        <div class="separador"></div>
-        
-        <button class="btn-eina" id="btn-esquerra" title="Alinear a l'esquerra"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
-        <button class="btn-eina" id="btn-centre" title="Alinear al centre"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="6" y1="12" x2="18" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
-        <button class="btn-eina" id="btn-dreta" title="Alinear a la dreta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="9" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
-        <div class="separador"></div>
+        <div class="barra-eines">
+            <select class="select-eina"><option>Text normal</option><option>Títol 1</option><option>Títol 2</option></select>
+            <div class="separador"></div>
+            <select class="select-eina" style="width: 80px;"><option>Arial</option><option>Times</option></select>
+            <div class="separador"></div>
+            <button class="btn-eina" title="Disminuir"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+            <input type="text" value="11" class="input-mida" style="width: 30px; text-align: center; border: 1px solid #ccc; border-radius: 3px;">
+            <button class="btn-eina" title="Augmentar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+            <div class="separador"></div>
+            
+            <button class="btn-eina" id="btn-negreta" style="font-weight: bold; font-family: serif;" title="Negreta (Ctrl+B)">B</button>
+            <button class="btn-eina" id="btn-cursiva" style="font-style: italic; font-family: serif;" title="Cursiva (Ctrl+I)">I</button>
+            <button class="btn-eina" id="btn-subratllat" style="text-decoration: underline; font-family: serif;" title="Subratllat (Ctrl+U)">U</button>
+            <input type="color" id="selector-color" class="input-color" value="#000000" title="Color del text">
+            <div class="separador"></div>
+            
+            <button class="btn-eina" id="btn-esquerra" title="Alinear a l'esquerra"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+            <button class="btn-eina" id="btn-centre" title="Alinear al centre"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="6" y1="12" x2="18" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+            <button class="btn-eina" id="btn-dreta" title="Alinear a la dreta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="9" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+            <div class="separador"></div>
 
-        <button class="btn-eina" title="Interlineat i espaiat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="4" x2="12" y2="20"></line><polyline points="15 7 12 4 9 7"></polyline><polyline points="15 17 12 20 9 17"></polyline><line x1="21" y1="6" x2="21" y2="6"></line><line x1="21" y1="12" x2="21" y2="12"></line><line x1="21" y1="18" x2="21" y2="18"></line></svg></button>
-        <div class="separador"></div>
-        <button class="btn-eina" title="Llista de tasques"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></button>
-        <button class="btn-eina" id="btn-punts" title="Llista amb punts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
-        <button class="btn-eina" id="btn-numeros" title="Llista numerada"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg></button>
-        <div class="separador"></div>
-        
-        
-        <button class="btn-eina" id="btn-descarregar" title="Descarregar com a Document">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-        </button>
-    </div>
+            <button class="btn-eina" id="btn-punts" title="Llista amb punts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
+            <button class="btn-eina" id="btn-numeros" title="Llista numerada"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg></button>
+            <button class="btn-eina" id="btn-descarregar" title="Descarregar com a Document">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+            </button>
+        </div>
 
         <div class="zona-principal">
             <div class="zona-document">
@@ -274,12 +276,13 @@
                     <h1>Comença a escriure aquí...</h1>
                 </div>
             </div>
+            
             <div id="sidebar-resizer"></div>
-            <div class="barra-lateral-p2p">
+            
+            <aside class="barra-lateral-p2p">
                 <h3 class="titol-sidebar">
-                    Xarxa P2P <span id="peers-count" style="font-weight:normal; font-size:12px; color:#666;">1 connectat</span>
+                    Xarxa P2P <span id="peers-count" style="font-weight:normal; font-size:12px; color:#666;">1 connectats</span>
                 </h3>
-                
                 <div class="usuari-fals">
                     <div class="cercle-estat"></div>
                     <div>
@@ -295,73 +298,34 @@
                         <span style="color:#666; font-size:11px;">Escribint línia 4...</span>
                     </div>
                 </div>
-            </div>
+
+                <div id="llista-peers" style="flex: 1; overflow-y: auto;">
+                    </div>
+            </aside>
         </div>
     </div>
 
     <script type="module" src="./app.js"></script>
     <script>
         // -- FUNCIONS BÀSIQUES DE FORMAT (Negreta, Cursiva, Subratllat) --
-        document.getElementById('btn-negreta').addEventListener('click', function() {
-            document.execCommand('bold');
-        });
-        document.getElementById('btn-cursiva').addEventListener('click', function() {
-            document.execCommand('italic');
-        });
-        document.getElementById('btn-subratllat').addEventListener('click', function() {
-            document.execCommand('underline');
-        });
+        document.getElementById('btn-negreta').addEventListener('click', function() { document.execCommand('bold'); });
+        document.getElementById('btn-cursiva').addEventListener('click', function() { document.execCommand('italic'); });
+        document.getElementById('btn-subratllat').addEventListener('click', function() { document.execCommand('underline'); });
 
         // -- FUNCIÓ DE COLOR DE LLETRA --
         const selectorColor = document.getElementById('selector-color');
-        selectorColor.addEventListener('input', function() {
-            const colorTriat = selectorColor.value;
-            document.execCommand('foreColor', false, colorTriat);
-        });
+        selectorColor.addEventListener('input', function() { document.execCommand('foreColor', false, selectorColor.value); });
 
         // -- FUNCIONS DE LLISTES --
-        document.getElementById('btn-punts').addEventListener('click', function() {
-            document.execCommand('insertUnorderedList');
-        });
-        document.getElementById('btn-numeros').addEventListener('click', function() {
-            document.execCommand('insertOrderedList');
-        });
+        document.getElementById('btn-punts').addEventListener('click', function() { document.execCommand('insertUnorderedList'); });
+        document.getElementById('btn-numeros').addEventListener('click', function() { document.execCommand('insertOrderedList'); });
 
         // -- FUNCIONS D'ALINEACIÓ --
-        document.getElementById('btn-esquerra').addEventListener('click', function() {
-            document.execCommand('justifyLeft');
-        });
-        document.getElementById('btn-centre').addEventListener('click', function() {
-            document.execCommand('justifyCenter');
-        });
-        document.getElementById('btn-dreta').addEventListener('click', function() {
-            document.execCommand('justifyRight');
-        });
-        // -- FUNCIONS DE FINESTRA (MINIMITZAR, EXPANDIR, TANCAR) --
-        document.querySelectorAll('.minimize-app').forEach(btn => {
-            btn.addEventListener('click', () => {
-                Pear.Window.self.minimize();
-            });
-        });
-
-        document.querySelectorAll('.maximize-app').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                const isMax = await Pear.Window.self.isMaximized();
-                if (isMax) {
-                    Pear.Window.self.restore();
-                } else {
-                    Pear.Window.self.maximize();
-                }
-            });
-        });
-
-        document.querySelectorAll('.close-app').forEach(btn => {
-            btn.addEventListener('click', () => {
-                Pear.Window.self.close();
-            });
-        });
-
-        // coses per colapsar usuaris
+        document.getElementById('btn-esquerra').addEventListener('click', function() { document.execCommand('justifyLeft'); });
+        document.getElementById('btn-centre').addEventListener('click', function() { document.execCommand('justifyCenter'); });
+        document.getElementById('btn-dreta').addEventListener('click', function() { document.execCommand('justifyRight'); });
+        
+        // -- COSES PER COL·LAPSAR LA BARRA (RESIZER) --
         const resizer = document.getElementById('sidebar-resizer');
         const sidebar = document.querySelector('.barra-lateral-p2p');
         let isResizing = false;
@@ -369,26 +333,23 @@
         resizer.addEventListener('mousedown', (e) => {
             isResizing = true;
             document.body.style.cursor = 'col-resize';
-            // Desactivem la selecció de text mentre arrosseguem
-            document.body.style.userSelect = 'none';
+            document.body.style.userSelect = 'none'; // Evita selecció mentre s'arrossega
         });
 
         document.addEventListener('mousemove', (e) => {
             if (!isResizing) return;
-
-            // Calculem l'amplada: l'amplada de la finestra menys la posició del ratolí
             const newWidth = window.innerWidth - e.clientX;
-
-            // Apliquem límits (els mateixos que al CSS)
-            if (newWidth > 100 && newWidth < 600) {
+            if (newWidth > 150 && newWidth < 500) {
                 sidebar.style.width = `${newWidth}px`;
             }
         });
 
         document.addEventListener('mouseup', () => {
-            isResizing = false;
-            document.body.style.cursor = 'default';
-            document.body.style.userSelect = 'auto';
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = 'default';
+                document.body.style.userSelect = 'auto'; // Retorna a la normalitat
+            }
         });
     </script>
 </body>
