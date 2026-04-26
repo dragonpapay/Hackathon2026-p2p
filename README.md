@@ -16,29 +16,47 @@ FIBerWalkie is a collaborative text editor that operates Peer-to-Peer. Built dur
 ## HOW TO INSTALL
 
 1. **Install Pear** on your system:
-   You can find the instructions on their official website or by running:
-   ```bash
-   npm install -g pear
+  You can find the instructions on their official website or by running:
+   ```Bash
+    npm install -g pear
    
-    Clone this repository and install dependencies:
-    Bash
+  Clone this repository and install dependencies:
+    ```Bash
 
     npm install
 
-    Run the application with:
-    Bash
+    npm install mammoth
 
-    pear run --dev .
+  Run the application with:
+    ```Bash
+
+    pear run .
 
 HOW TO SHARE NOTES
 
-    Create New bloc: Click the button.
+    Create New Notepad: Click the top-left button.
 
     Share the key: This 32 chars is ur private study session! Don't share it!
 
     Your partner might click on join using the key.
 
     That's it! You can see the real-time users using the notes.
+
+EXPORT YOUR NOTES
+
+    In the noteblock editor click the rightmost button in the toolbar
+
+    Now you can export your note as a word document! (.doc)
+
+## UNFINISHED FUNCTIONALITIES
+
+IMPORTING NOTES (WIP)
+
+    Currently we can only import txt files, however support may be added soon.
+
+SENDING PDFs (WIP)
+
+    We've yet to implement this functionality.
 
 This project was made on the 24-26 (36h Hack) of April of 2026 by Bertrand, Patrick & Joan.<div align="center">
   <h1>🍐 FIBerWalkie</h1>
